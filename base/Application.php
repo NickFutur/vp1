@@ -29,8 +29,6 @@ class Application
             $controller->preDispatch();
             $result = $controller->$action();
 
-            // ...
-
             echo $result;
         } catch (RedirectException $e) {
             header('Location: ' . $e->getUrl());

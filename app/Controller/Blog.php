@@ -55,10 +55,6 @@ class Blog extends Controller
 
     }
 
-    public function twig()
-    {
-        return $this->view->renderTwig('test.twig', ['var' => 'ololo']);
-    }
 
     private function error()
     {
