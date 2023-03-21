@@ -62,7 +62,7 @@ class User
     {
         $db = connection_bd::getInstance();
         $res = $db->exec(
-            'INSERT INTO users (name,  password,  created_at, email) VALUES ( :name,  :password,  :created_at, :email)',
+            'INSERT INTO users (name,  password,  created_at, email) VALUES (:name, :password, :created_at, :email)',
             __FILE__,
             [
                 ':name' => $this->name,

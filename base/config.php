@@ -5,9 +5,3 @@ const DB_HOST = '127.0.0.1';
 const DB_PASSWORD = '';
 
 const ADMIN_IDS = [3];
-
-function d(...$args)
-{
-    var_dump($args);
-    die;
-}
