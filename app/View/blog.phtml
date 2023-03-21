@@ -1,0 +1,141 @@
+<style>
+    body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #0B0C10;
+        color: #FFF;
+        font-family: "Arial Black";
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    header{
+        display: flex;
+        width: 100%;
+        justify-content: flex-start;
+        background-color: #1F2833;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+
+    h1{
+        margin-left: 15%;
+        color: #66FCF1;
+    }
+
+    .message {
+        margin-bottom: 1%;
+        outline: 3px solid #45A29E;
+        border-radius: 10px;
+        width: 50%;
+        min-height: 15%;
+        background-color: #C5C6C7;
+        padding: 0.5%;
+    }
+
+    .author {
+        margin-left: 10px;
+    }
+
+    .text {
+        padding-left: 15px;
+        padding-top: 15px;
+        font-family: "Arial";
+        color: #0B0C10;
+
+
+    }
+
+    .date {
+        color: #45A29E;
+        font-size: 11px;
+    }
+
+    .admin{
+
+    }
+
+    .admin a {
+        color: #005792;
+        float: right;
+        padding-right: 15px;
+        text-decoration: none;
+    }
+
+    .text-form{
+        display: flex;
+        flex-direction: column;
+        width: 45%;
+        min-height: 30%;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .text-form textarea{
+        width: 100%;
+        min-height: 50%;
+        margin-top: 1%;
+        outline: 3px solid #45A29E;
+        border-radius: 10px;
+        padding: 1%;
+        font-family: "Arial";
+        color: #0B0C10;
+        font-size: 16px;
+    }
+
+    .inp{
+        background-color: #66FCF1;
+        width: 200px;
+        height: 30px;
+        color: #0B0C10;
+        border-radius: 10px;
+        font-family: "Arial Black";
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+<header>
+    <h1>Блог</h1>
+</header>
+
+<h2>Лента сообщений</h2>
+<?php
+/** @var $message \App\Model\Message */
+/** @var $user \App\Model\User */
+$user = $this->user;
+?>
+<?php if($messages = $this->messages): ?>
+    <?php foreach ($messages as $message): ?>
+        <div class="message">
+            <?php if($user->isAdmin()): ?>
+            <div class="admin">
+                <a href="/admin/deleteMessage/?id=<?=$message->getId();?>">Удалить</a>
+            </div>
+            <?php endif; ?>
+            <span class="date"><?=$message->getCreatedAt();?> </span>
+            <?php if($author = $message->getAuthor()):?>
+                <span class="author"><?=htmlspecialchars($author->getName());?></span>
+            <?php else: ?>
+                <span class="author">Сообщение от удаленного пользователя</span>
+            <?php endif; ?>
+            <div class="text"><?=htmlspecialchars(nl2br($message->getText()));?></div>
+            <?php if($message->getImage()):?>
+                <div><img src="/images/<?=$message->getImage();?>" style="width: 150px;"></div>
+            <?php endif;?>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    Сообщений пока нет
+<?php endif; ?>
+
+Добавить сообщение
+<form enctype="multipart/form-data" action="/blog/addMessage" method="post" class="text-form">
+    <textarea type="text" value="" name="text"></textarea><br><br>
+    <h3 style="align-self: flex-start">Изображение: <input type="file" name="image"></h3>
+    <input type="submit" value="Отправить" class="inp">
+</form>

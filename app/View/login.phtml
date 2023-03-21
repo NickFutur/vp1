@@ -1,0 +1,114 @@
+<html>
+<head>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #0B0C10;
+            color: #FFF;
+            font-family: "Arial Black";
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        header{
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            background-color: #1F2833;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        h1{
+            margin-left: 15%;
+            color: #66FCF1;
+        }
+
+        .blocks{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            width: 100%;
+            min-height: 70%;
+        }
+
+        .reg-block, .auth-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            outline: 3px solid #45A29E;
+            border-radius: 10px;
+            min-width: 30%;
+        }
+        .reg-block-form{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 80%;
+        }
+
+        .reg-block-form input{
+            width: 90%;
+            height: 30px;
+            align-self: center;
+            margin-top: 1%;
+            border: 3px solid #45A29E;
+            border-radius: 5px;
+        }
+
+        .btn{
+            background-color: #45A29E;
+           width: 70%!important;
+            border-radius: 20px!important;
+            color: #FFFFFF;
+            font-family: "Arial Black";
+            font-size: 14px;
+        }
+    </style>
+</head>
+    <body>
+    <header>
+        <h1><?=$this->title;?></h1>
+    </header>
+
+        <?php
+        /** @var \App\Model\User $user */
+        $user = $this->user;
+        ?>
+
+        <?php if(!$user): ?>
+        <div class="blocks">
+            <div class="reg-block">
+                <h3>Зарегистрироваться</h3>
+                <form action="/login/register" method="post" class="reg-block-form">
+                    <div class="field">Логин:</div> <input type="text" value="" name="name"><br>
+                    <div class="field">Email:</div> <input type="text" value="" name="email"><br>
+                    <div class="field">Пароль:</div> <input type="password" value="" name="password"><br>
+                    <div class="field">Повторите пароль:</div> <input type="password" value="" name="password_2" ><br>
+                    <input type="submit" value="Зарегистрироваться" class="btn">
+                </form>
+            </div>
+            <div class="auth-block">
+                <h3>Войти</h3>
+                <form action="/login/auth" method="post" class="reg-block-form">
+                    <div class="field">Email:</div> <input type="text" value="" name="email"><br>
+                    <div class="field">Пароль:</div> <input type="password" value="" name="password" ><br>
+                    <input type="submit" value="Войти" class="btn">
+                </form>
+
+            </div>
+        </div>
+
+    <?php else: ?>
+        Вы вошли как <?=$user->getName();?>
+    <?php endif; ?>
+
+    </body>
+</head>
+</html>
