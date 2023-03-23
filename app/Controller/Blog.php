@@ -35,7 +35,7 @@ class Blog extends Controller
             $this->redirect('/login');
         }
 
-        $text = (string) $_POST['text'];
+        $text = (string)$_POST['text'];
         if (!$text) {
             $this->error('Сообщение не может быть пустым');
         }
@@ -55,9 +55,14 @@ class Blog extends Controller
 
     }
 
+    public function twig()
+    {
+        return $this->view->renderTwig('testfile.twig', ['var' => 'Test ready']);
+    }
 
     private function error()
     {
 
     }
 }
+
