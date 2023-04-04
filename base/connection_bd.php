@@ -16,7 +16,7 @@ class connection_bd
     {
     }
 
-    public static function getInstance(): self
+    public static function getInstance(): self // данную функцию не используем
     {
         if (!self::$instance) {
             self::$instance = new self();

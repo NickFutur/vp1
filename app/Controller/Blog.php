@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use App\Model\Message;
+use App\Model\EloquentModel\Message;
 use Base\Controller;
 
 class Blog extends Controller
@@ -11,18 +11,18 @@ class Blog extends Controller
         if (!$this->getUser()) {
             $this->redirect('/login');
         }
-        $messages = Message::getList(20);
-        if ($messages) {
-            $userIds = array_map(function (Message $message) {
-                return $message->getAuthorId();
-            }, $messages);
-            $users = \App\Model\User::getByIds($userIds);
-            array_walk($messages, function (Message $message) use ($users) {
-                if (isset($users[$message->getAuthorId()])) {
-                    $message->setAuthor($users[$message->getAuthorId()]);
-                }
-            });
-        }
+        $messages = Message::getList(100); // здесь можно поставить лимит на количество выводимых сообщений
+//        if ($messages) {
+//            $userIds = array_map(function (Message $message) {
+//                return $message->getAuthorId();
+//            }, $messages);
+//            $users = \App\Model\EloquentModel\User::getByIds($userIds);
+//            array_walk($messages, function (Message $message) use ($users) {
+//                if (isset($users[$message->getAuthorId()])) {
+//                    $message->setAuthor($users[$message->getAuthorId()]);
+//                }
+//            });
+//        }
         return $this->view->render('blog.phtml', [
             'messages' => $messages,
             'user' => $this->getUser()

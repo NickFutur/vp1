@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use App\Model\User;
+use App\Model\EloquentModel\User;
 use Base\Controller;
 
 class Login extends Controller
@@ -22,8 +22,8 @@ class Login extends Controller
 
     public function auth()
     {
-        $email = (string) $_POST['email'];
-        $password = (string) $_POST['password'];
+        $email = (string)$_POST['email'];
+        $password = (string)$_POST['password'];
 
         $user = User::getByEmail($email);
         if (!$user) {
@@ -41,10 +41,10 @@ class Login extends Controller
 
     public function register()
     {
-        $name = (string) $_POST['name'];
-        $email = (string) $_POST['email'];
-        $password = (string) $_POST['password'];
-        $password2 = (string) $_POST['password_2'];
+        $name = (string)$_POST['name'];
+        $email = (string)$_POST['email'];
+        $password = (string)$_POST['password'];
+        $password2 = (string)$_POST['password_2'];
 
         if (!$name || !$password) {
             return 'Не заданы имя и пароль';
@@ -73,6 +73,13 @@ class Login extends Controller
 
         $this->session->authUser($user->getId());
         $this->redirect('/blog');
+
+    }
+
+    public function logOut()
+    {
+        $this->session>dropSession();
+        $this->redirect('/');
     }
 
 

@@ -4,6 +4,7 @@
   },
   "require": {
     "twig/twig": "^3.0",
-    "swiftmailer/swiftmailer": "^6.0"
+    "swiftmailer/swiftmailer": "^6.0",
+    "illuminate/database": "^10.5"
   }
 }

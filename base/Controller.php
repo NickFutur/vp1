@@ -1,7 +1,7 @@
 <?php
 namespace Base;
 
-use App\Model\User;
+use App\Model\EloquentModel\User;
 
 class Controller
 {
@@ -51,6 +51,10 @@ class Controller
 
     public function preDispatch()
     {
-
+        if ($this->getUser()){
+            $this->view->assign([
+                'user' => $this->getUser()
+            ]);
+        }
     }
 }

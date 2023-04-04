@@ -1,0 +1,286 @@
+<body>
+<style>
+    body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #0B0C10;
+        color: #FFF;
+        font-family: "Arial Black";
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    header{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #1F2833;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+
+    .log-out{
+        margin-right: 15%;
+    }
+
+    .log-out a{
+        text-decoration: none;
+        color: #FFFFFF;
+        font-size: 16px;
+        /*cursor: pointer;*/
+    }
+
+    h1{
+        margin-left: 15%;
+        color: #66FCF1;
+    }
+
+    h2{
+        margin-top: 2%;
+        margin-bottom: 3%;
+    }
+
+    .user-list {
+        margin-bottom: 2%;
+        outline: 3px solid #45A29E;
+        border-radius: 10px;
+        width: 50%;
+        min-height: 15%;
+        background-color: #0B0C10;
+        padding: 0.5%;
+    }
+
+    .user-list-block{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .user-list-block2{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .text {
+        color: #FFF;
+        font-family: "Arial Black";
+        margin: 0;
+    }
+
+    .text-id{
+        text-align: center;
+        margin-top: 2%
+    }
+
+    .admin a {
+        color: #005792;
+        float: right;
+        padding-right: 15px;
+        text-decoration: none;
+    }
+
+    .text-form textarea{
+        width: 100%;
+        min-height: 50%;
+        margin-top: 1%;
+        outline: 3px solid #45A29E;
+        border-radius: 10px;
+        padding: 1%;
+        font-family: "Arial";
+        color: #0B0C10;
+        font-size: 16px;
+    }
+
+    .inp{
+        width: 90%;
+        height: 30px;
+        align-self: center;
+        margin-top: 1%;
+        border: 3px solid #45A29E;
+        border-radius: 5px;
+    }
+
+    .btn{
+        margin-top: 3%;
+        margin-bottom: 1%;
+        background-color: #45A29E;
+        width: 30%;
+        border-radius: 20px!important;
+        color: #FFFFFF;
+        font-family: "Arial Black";
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .btn:hover{
+        color: #0B0C10;
+    }
+
+    .line{
+        width: 100%;
+        height: 3px;
+        background-color: #FFFFFF;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+/*Дополнительные тестовые стили*/
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    #content{
+        width: 50%;
+        justify-content: center;
+        align-items: center;
+        margin: 20px auto;
+        border: 1px solid #cbcbcb;
+    }
+    form{
+        width: 50%;
+        margin: 20px auto;
+    }
+
+    #display-image{
+        width: 100%;
+        justify-content: center;
+        padding: 5px;
+        margin: 15px;
+    }
+    img{
+        margin: 5px;
+        width: 350px;
+        height: 250px;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+<header>
+
+    <h1>Блог</h1>
+
+    <div class="log-out" style="display: none"><a href="/logout">Выйти из системы</a></div> <!-- Пока не работает -->
+
+</header>
+
+<h2>Список пользователей</h2>
+<?php
+/** @var $message \App\Model\EloquentModel\Message */
+/** @var $user \App\Model\EloquentModel\User */
+?>
+
+<?php if($users = $this->users): ?>
+
+    <?php foreach ($users as $user): ?>
+        <div class="user-list">
+            <div class="user-list-block">
+                <p class="text text-id">id: <?=$user->getId();?></p>
+                <p class="text">Логин:</p>
+                    <input class="inp" type="text" id="user_name_<?=$user->getId();?>" value="<?=htmlspecialchars($user->getName());?>">
+                <p class="text">Email:</p>
+                    <input class="inp" type="text" id="user_email_<?=$user->getId();?>" value="<?=htmlspecialchars($user->email);?>">
+                <p class="text">Пароль:</p>
+                    <input class="inp" type="text" id="user_password_<?=$user->getId();?>">
+                <p class="text">img:</p>
+                    <input type="file" name="image" id="user_image_<?=$user->getId();?>">
+                <?php if($user->getImage()):?>
+                    <div><img src="/images/<?=$user->getImage();?>" style="width: 10%; height: 10%;"></div>
+                <?php endif;?>
+            </div>
+
+            <div class="user-list-block2">
+            <input type="button" class="btn" onclick="saveUser(<?=$user->getId();?>);" value="Сохранить">
+            <input type="button" class="btn" onclick="deleteUser(<?=$user->getId();?>);" value="Удалить">
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+<div class="line"></div>
+<div class="user-list">
+    <p class="text text-id">Добавить пользователя</p>
+    <div class="user-list-block">
+        <p class="text">Логин:</p>
+            <input class="inp" type="text" id="user_name"> <br>
+        <p class="text">Email:</p>
+            <input class="inp" type="text" id="user_email"> <br>
+        <p class="text">Пароль:</p>
+            <input class="inp" type="text" id="user_password">
+        <p class="text">img:</p>
+            <input type="file" name="image" id="user_image_<?=$user->getId();?>">
+        <input type="button" class="btn" value="Отправить" onclick="addUser();">
+        <div id="resp"></div>
+    </div>
+</div>
+
+
+<script>
+    function saveUser(userId)
+    {
+        $.post(
+            '/admin/saveUser',
+            {
+                id: userId,
+                name: $('#user_name_' + userId).val(),
+                email: $('#user_email_' + userId).val(),
+                password: $('#user_password_' + userId).val(),
+                image: $('#user_image_' + userId).val(),
+            },
+            function (r) {
+                if (r.error) {
+                    $('#resp_' + userId).html('<span style="color:red">' + r.error + '</span>');
+                } else {
+                    $('#resp_' + userId).html('<span style="color:green">' + r.result + '</span>');
+                }
+            }
+        );
+    }
+
+    function deleteUser(userId)
+    {
+        $.post(
+            '/admin/deleteUser',
+            {
+                id: userId,
+            },
+            function (r) {
+                if (r.error) {
+                    $('#resp_' + userId).html('<span style="color:red">' + r.error + '</span>');
+                } else {
+                    $('#resp_' + userId).html('<span style="color:green">' + r.result + '</span>');
+                    setTimeout(function() {
+                        $('#user_block_' + userId).remove();
+                    }, 500);
+                    location.reload();
+                }
+            }
+        );
+    }
+
+    function addUser()
+    {
+        $.post(
+            '/admin/addUser',
+            {
+                name: $('#user_name').val(),
+                email: $('#user_email').val(),
+                password: $('#user_password').val(),
+                image: $('#user_image').val(),
+            },
+            function (r) {
+                if (r.error) {
+                    $('#resp').html('<span style="color:red">' + r.error + '</span>');
+                } else {
+                    $('#resp').html('<span style="color:green">' + r.result + '</span>');
+                    location.reload();
+                }
+            }
+        );
+    }
+</script>
+</body>
